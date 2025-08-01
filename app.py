@@ -2,12 +2,10 @@ import streamlit as st
 from dotenv import load_dotenv
 import os
 from langchain.chat_models import ChatOpenAI
-from langchain.prompts import ChatPromptTemplate
+from langchain.schema import SystemMessage, HumanMessage
 
 # .envから環境変数を読み込む
 load_dotenv()
-
-# OpenAI APIキーの取得
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 # 専門家の種類とシステムメッセージ
@@ -20,12 +18,16 @@ experts = {
 # LLM応答関数
 def get_llm_response(user_input, expert_type):
     system_message = experts.get(expert_type, "あなたは一般的な知識を持つAIです。")
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", system_message),
-        ("human", user_input)
-    ])
+    
+    messages = [
+        SystemMessage(content=system_message),
+        HumanMessage(content=user_input)
+    ]
+
     llm = ChatOpenAI(openai_api_key=openai_api_key, temperature=0.7)
-    return llm(prompt.format())
+    response = llm.invoke(messages)
+    
+    return response.content
 
 # Streamlit UI
 st.title("LLM専門家相談アプリ")
