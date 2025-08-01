@@ -36,7 +36,7 @@ st.write("""
 下の入力フォームに相談内容を入力し、専門家の種類を選択して送信してください。
 """)
 
-st.text(f"APIキーの文字数: {len(openai_api_key) if openai_api_key else '未取得'}")
+# st.text(f"APIキーの文字数: {len(openai_api_key) if openai_api_key else '未取得'}")
 
 expert_type = st.radio("専門家の種類を選択してください", list(experts.keys()))
 user_input = st.text_area("相談内容を入力してください")
