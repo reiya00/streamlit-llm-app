@@ -24,7 +24,7 @@ def get_llm_response(user_input, expert_type):
         ("system", system_message),
         ("human", user_input)
     ])
-    llm = OpenAI(openai_api_key=openai_api_key, temperature=0.7)
+    llm = ChatOpenAI(openai_api_key=openai_api_key, temperature=0.7)
     return llm(prompt.format())
 
 # Streamlit UI
